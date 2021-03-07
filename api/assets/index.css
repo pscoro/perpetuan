@@ -1,0 +1,184 @@
+/** { margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box; }*/
+html, body {
+    font: 20px Consolas, Arial !important;
+    background: rgb(0,0,35);
+    /*width: 100% !important;*/
+    height: 100% !important;
+    margin: 0px;
+    overflow: hidden !important;
+}
+#chat-box {
+    display: block !important;
+    overflow: scroll !important;
+    overflow-x: hidden !important;
+    width: 66% !important;
+    /*height: 66% !important;*/
+    height: 100% !important;
+    background-image: url("img/landing.png") !important;
+    background-size: cover !important;
+    position: relative;
+    border: solid 3px rgb(0,0,0) !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    float: left !important;
+}
+
+.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+}
+
+.container-1 {
+    display: flex;
+    width: 100%;
+    height: 66%;
+}
+.container-2 {
+    display: flex;
+    width: 100%;
+    height: 33%;
+}
+
+.entity_directory_container {
+    background: #35353570;
+    width: 99% !important;
+    height: 96% !important;
+    margin: auto !important;
+    border-radius: 5px;
+}
+
+.info_container {
+    background: #50507070;
+    width: 99% !important;
+    height: 96% !important;
+    margin: auto !important;
+    border-radius: 5px;
+}
+
+.split {
+    height: 100%;
+
+}
+#flex {
+    display: flex;
+    flex-direction: row;
+}
+#one {
+    background-image: url("img/landing.png") !important;
+    background-size: cover !important;
+    overflow-x: hidden !important;
+    word-wrap: break-word !important;
+    white-space: initial !important;
+}
+
+#two {
+    padding: 10px;
+}
+
+#three {
+    height: 100%;
+    word-wrap: break-word !important;
+    white-space: initial !important;
+}
+
+#four {
+    overflow: scroll;
+}
+
+.split{
+    float: left;
+}
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+    height: 100%;
+    background: darkgray;
+}
+
+form {
+
+    padding: 0px;
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*width: 100%;*/
+    height: 9%;
+}
+form input {
+    box-sizing: border-box;
+    display: block;
+    border: 0;
+    padding: 10px;
+    margin: 0px;
+    width: 100%;
+    position: relative;
+    bottom: 33%;
+    float: left;
+}
+
+#table {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden !important;
+}
+
+td, tr, table {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    overflow-x: hidden !important;
+}
+
+form button {
+
+    background-color: rgb(0, 0, 35);
+    color: rgb(150,150,255) !important;
+    font: 25px Consolas, Arial !important;
+    font-weight: bold;
+    border: none;
+    padding: 4px;
+    /*width: auto !important;*/
+    /*height: auto !important;*/
+    position: absolute !important;
+    right: 0;
+    bottom: 0;
+    margin: 5px !important;
+}
+#messages {
+    /*list-style-type: none;*/
+    background: #AAAAAA50;
+    margin: 0;
+    padding: 0;
+    border: black 0px solid;
+    width: 100%;
+    overflow-x: hidden !important;
+}
+#messages li {
+    padding: 5px 10px;
+}
+#messages li:nth-child(odd) {
+    background-color: #35353535 !important;
+    font-weight: bold;
+}
+#m {
+
+    /*font: 13px Consolas, Arial !important;*/
+    /*margin: 5px !important;*/
+    /*margin-right: 5px !important;*/
+}
+
+li {
+    padding: 0px;
+    margin: 0px;
+    overflow-x:  hidden !important;
+}
+
+#map_canvas {
+    width: 100% !important;
+    height: 100% !important;
+    background: #353535;
+    float: left !important;
+    margin: 0px;
+}

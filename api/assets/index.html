@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="container-1">
+    <div class="chat-box split" id="one">
+        <table id="table">
+            <tr>
+                <td valign="top">
+                    <ul id="messages"></ul>
+                </td>
+            </tr>
+            <tr>
+                <td valign="bottom">
+                    <form action="">
+                        <input id="m" autocomplete="off" /><button></button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="split" id="two">
+        <div class="entity_directory_container">
+
+        </div>
+    </div>
+</div>
+<div class="container-2">
+    <div class="split" id="three">
+        <div class="info_container"></div>
+    </div>
+
+    <div class="split" id="four">
+        <canvas id="map_canvas">
+            Your browser does not support canvas :(((((((
+        </canvas>
+    </div>
+</div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
+<script src="https://unpkg.com/konva@7.2.4/konva.min.js"></script>
+<script>
+    let sizes = localStorage.getItem('split-sizes')
+
+    if (sizes) {
+        sizes = JSON.parse(sizes)
+    } else {
+        sizes = [50, 50] // default sizes
+    }
+
+    let sizes2 = localStorage.getItem('split-sizes2')
+
+    if (sizes2) {
+        sizes2 = JSON.parse(sizes2)
+    } else {
+        sizes2 = [50, 50] // default sizes
+    }
+
+    let split = Split(['#one', '#two'], {
+        sizes: sizes,
+        onDragEnd: function(sizes) {
+            localStorage.setItem('split-sizes', JSON.stringify(sizes))
+        },
+        elementStyle: function(dimension, size, gutterSize) {
+            return {
+                'flex-basis': 'calc(' + size + '% - ' + gutterSize + 'px)',
+            }
+        },
+        gutterStyle: function(dimension, gutterSize) {
+            return {
+                'flex-basis': gutterSize + 'px',
+            }
+        },
+    })
+    let split2 = Split(['#three', '#four'], {
+        sizes: sizes2,
+        onDrag: function() {
+            drawBoard();
+        },
+        onDragEnd: function(sizes2) {
+            localStorage.setItem('split-sizes2', JSON.stringify(sizes2));
+            drawBoard();
+        },
+        elementStyle: function(dimension, size2, gutterSize) {
+            return {
+                'flex-basis': 'calc(' + size2 + '% - ' + gutterSize + 'px)',
+            }
+        },
+        gutterStyle: function(dimension, gutterSize) {
+            return {
+                'flex-basis': gutterSize + 'px',
+            }
+        },
+    })
+    console.log(split);
+
+    var canvas = document.getElementById("map_canvas");
+    var context = canvas.getContext("2d");
+    function drawBoard(){
+        canvas.width = document.getElementById("map_canvas").offsetWidth;
+        canvas.height = document.getElementById("map_canvas").offsetHeight;
+
+        // Box width
+        var bw = 10;
+        // Box height
+        var bh = 10;
+        // grid width
+        var gw = 10;
+        // grid height
+        var gh = 10;
+        // Padding
+        var p = 0;
+        // Zoom
+        var zoom = 20;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        context.lineWidth = "1";
+
+        for(let i = 0; i < bw; i++) {
+            for(let j = 0; j < bh; j++) {
+                context.fillStyle = "green";
+                context.fillRect(i*zoom, j*zoom, zoom, zoom)
+                context.strokeStyle = "black";
+                context.strokeRect(i*zoom, j*zoom, zoom, zoom)
+                // context.stroke();
+            }
+        }
+
+    }
+
+    drawBoard();
+
+
+
+    /*----------------------------------------------------------------*/
+    var socket = io("/");
+    socket.emit('msg', 'hello');
+    // var s2 = io("/chat");
+
+    let isCaptured = false;
+
+    socket.on('msg', function(msg) {
+            console.log(msg);
+            $('#messages').prepend("<li>" + JSON.parse(msg).Sender.Username + ": " + JSON.parse(msg).Text + "</li>");
+    });
+
+    socket.on('cmd', function(msg) {
+        $('#messages').prepend("<li>" + JSON.parse(msg).Text + "</li>");
+    });
+
+    socket.on('pri', function(msg) {
+        console.log(msg);
+        $('#messages').prepend("<li class='sticky'>Server: " + JSON.parse(msg).Text + "</li>");
+        isCaptured = true;
+    });
+
+    socket.on('unsticky', function () {
+        isCaptured = false;
+        let x = document.getElementsByClassName('sticky')
+        for (let i = 0; i < x.length; i++){
+            x[i].removeAttribute("class");
+        }
+
+    })
+
+
+    $('form').submit(function(){
+        let inp = $('#m').val();
+
+        if(isCaptured) {
+            socket.emit('pri', {Sender: {}, Text: inp})
+        }
+        socket.emit('msg', {Sender: {}, Text: inp});
+        console.log("Msg sent");
+        $('#m').val('');
+        return false;
+    });
+
+
+</script>
+
+</body>
+</html>
